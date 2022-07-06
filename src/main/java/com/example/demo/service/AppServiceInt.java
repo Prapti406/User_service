@@ -16,7 +16,7 @@ import com.example.demo.model.User;
 public interface AppServiceInt{
 	//public List<Product> getAllProducts();
 	  
-	  public User findUserById(long id)throws RecordNotFoundException;
+	  public User findUserById(int id)throws RecordNotFoundException;
 	  
 	  //public Product updateProduct(Product p,long id);
 	  

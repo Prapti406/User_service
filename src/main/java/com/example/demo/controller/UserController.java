@@ -26,8 +26,11 @@ import com.example.demo.model.Login;
 import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.AppService;
+
+
 @RestController
 @RequestMapping("/mainapp")
+
 public class UserController {
 	@Autowired
 	private UserRepository userrepo;
@@ -42,7 +45,7 @@ public class UserController {
 		
 	}
 	
-	@PostMapping("/adduser")
+	@PostMapping("/register")
 	public ResponseEntity<User> register(@Valid @RequestBody UserDto reg) {
 		userrepo.save(reg.getUser());
 		appservice.addUser(reg.getUser());
@@ -51,14 +54,14 @@ public class UserController {
 	}
 	
 	@GetMapping("/finduser/{uid}")
-	public User findUser(@PathVariable("uid")long uid) {
+	public User findUser(@PathVariable("uid")int uid) {
 		return userrepo.findById(uid)
 				.orElseThrow(() -> new RecordNotFoundException("User not found with id:"+uid)); 
 		
 	}
 	
 	@DeleteMapping("/deleteuser/{uid}")
-	public String deleteUser(@PathVariable("uid")long uid) throws RecordNotFoundException {
+	public String deleteUser(@PathVariable("uid")int uid) throws RecordNotFoundException {
 		Optional opt=userrepo.findById(uid);
 		if(opt.isPresent()) {
 			userrepo.deleteById(uid);
@@ -85,12 +88,6 @@ public class UserController {
 	@PutMapping("/updateuseraddress/{aid}")
 	public ResponseEntity<Address> updateUserAddress(@RequestBody Address reg, @PathVariable("aid") long aid) throws RecordNotFoundException{
 		Optional opt=addrepo.findById(aid);
-//		if(opt.isPresent()) {
-//			addrepo.deleteById(aid);
-//			addrepo.save(reg);
-//			return "Users Address Updated";
-//		}
-//		return "Users Address Not Updated";
 		return new ResponseEntity<Address>(appservice.updateuseraddress(reg, aid),HttpStatus.OK);
 	}
 	
@@ -98,6 +95,7 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@PathVariable("uid")int uid,@RequestBody User user) throws RecordNotFoundException{
 		  return new ResponseEntity<User>(appservice.updateUser(user, uid), HttpStatus.OK);
 	}
+	
 
 	@GetMapping("/loadaddress")
 	public List <Address> LoadAddresses(){

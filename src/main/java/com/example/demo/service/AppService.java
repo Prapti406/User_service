@@ -28,7 +28,7 @@ public class AppService implements AppServiceInt{
 	public boolean loginValid(Login login) {
 		for(User r:lst) {
 			System.out.println(r);
-		if(login.getUser_Name().equals(r.getUser_Name()) && login.getPassword().equals(r.getPassword())) {
+		if(login.getUser_Name().equals(r.getUserName()) && login.getPassword().equals(r.getPassword())) {
 			return true;
 		}
 		}
@@ -39,61 +39,31 @@ public class AppService implements AppServiceInt{
 		//System.out.println(registration.getPassword());
 		System.out.println(lst);
 	}
-	public User updateUser(User user,long uid) throws RecordNotFoundException{
-//		public  YourObject getYourObject(Long id) {
-//		    if (id == null) {
-//		        return null;
-//		    }
-//		    return objectRepository.findById(id).isPresent() ? 
-//		        objectRepository.findById(id).get(): null;
-//		 }
-		User prod = userrepo.findById(uid)
-				.orElseThrow(() -> new RecordNotFoundException("User not found with id:"+uid)); 
-	    if(prod.getUid()!=0) {
-	      prod.setFirst_Name(user.getFirst_Name());
-	      prod.setLast_Name(user.getLast_Name());
-	      prod.setEmail(user.getEmail());
-	      prod.setPassword(user.getPassword());
-	      prod.setPhoneno(user.getPhoneno());
-	      prod.setGender(user.getGender());
-	      prod.setAddresses(user.getAddresses());
-	    }
-	    else
-	    {
-	      throw new RecordNotFoundException("Not found");
-	    }
-	    userrepo.save(prod);
-	    return prod;
-	}
-//	public User findUserById(Long id) throws RecordNotFoundException {
-//	//	public  YourObject getYourObject(Long id) {
-////		    if (id == null) {
-////		        return null;
-////		    }
-////		    return objectRepository.findById(id).isPresent() ? 
-////		        objectRepository.findById(id).get(): null;
-////		 }
-//		  Optional<User> prod = userrepo.findById(id);
-//		  if(id==null) {
-//			  return null;
-//		  }
-//		  else if(prod.isPresent()){
-//			  return userrepo.findById(id).get();
-//			  
-//		  }
-//		  else {
-//			  return null;
-//		  }
-//		  
-////	    if(prod.isPresent()) {
-////	      return prod.get();
-////	    }
-////	    else {
-////	    	throw new RecordNotFoundException("Not found");
-////	   }
-////	}
-////	}
-//	}
+	public User updateUser(User user,int uid) throws RecordNotFoundException{
+
+		
+			User users = userrepo.findById(uid)
+					.orElseThrow(() -> new RecordNotFoundException("User not found with id:"+uid)); 
+		    if(users.getUid()!=0) {
+		      users.setFirst_Name(user.getFirst_Name());
+		      users.setLast_Name(user.getLast_Name());
+		      users.setEmail(user.getEmail());
+		      users.setPassword(user.getPassword());
+		      users.setPhoneno(user.getPhoneno());
+		      users.setGender(user.getGender());
+		      users.setAddresses(user.getAddresses());
+		    }
+		    else
+		    {
+		      throw new RecordNotFoundException("Not found");
+		    }
+		    userrepo.save(users);
+		    return users;
+		}
+		
+		
+	
+	
 	public Address updateuseraddress(Address address,long aid)throws RecordNotFoundException{
 		Address add=addrepo.findById(aid).get();
 		if(add.getAid()!=0) {
@@ -108,15 +78,15 @@ public class AppService implements AppServiceInt{
 			 }
 			    addrepo.save(add);
 			    return add;
-		}
+	}
 	@Override
-	public User findUserById(long id) throws RecordNotFoundException {
+	public User findUserById(int id) throws RecordNotFoundException {
 		// TODO Auto-generated method stub
-		 Optional<User> prod = userrepo.findById(id);
+		 Optional<User> users = userrepo.findById(id);
 		  
 	  
-	    if(prod.isPresent()) {
-	    	return prod.get();
+	    if(users.isPresent()) {
+	    	return users.get();
 	    }
 	    else {
 	    	throw new RecordNotFoundException("Not found");
